@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "NissanBrandBold";
+  src: url("./assets/fonts/NissanBrand/nissanbrand_bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  font-family: "NissanBrandBold", system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  font-family: "NissanBrandBold", sans-serif;
+  overflow-x: hidden;
+}
+
+.fc .fc-view-harness-active > .fc-view {
+  height: 80vh;
+  background-color: white;
+  cursor: pointer;
+}
+
+.fc-toolbar-title {
+  color: #023e50;
+}
+
+.fc-scrollgrid-section-header {
+  padding: 5;
+  background-color: #023e50;
+  color: white;
+}
+
+.fc .fc-daygrid-week-number {
+  padding: 5;
+  color: #023e50;
+  font-weight: bold;
+}
+
+.fc-daygrid-block-event .fc-event-time, .fc-daygrid-block-event .fc-event-title {
+  padding: 5px;
+}
+
