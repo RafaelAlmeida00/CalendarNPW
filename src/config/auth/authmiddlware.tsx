@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import { Navigate, useLocation } from "react-router";
 import Loading from "../../components/loading/load";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./authcontext";
 
 const AuthMiddleware = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
