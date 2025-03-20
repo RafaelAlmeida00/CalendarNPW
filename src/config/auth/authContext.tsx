@@ -21,11 +21,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userSnap = await GetTokenAndVerify() as any;
       if (userSnap) {
         setIsVerified(true);
-        setNpwAdmin(userSnap.npwAdmin ?? false);
-      } else {
-        setIsVerified(false);
-        setNpwAdmin(false);
+        setNpwAdmin(userSnap.npwAdmin);
+        return;
       }
+      setIsVerified(false);
+        setNpwAdmin(false);
     } catch (error) {
       setIsVerified(false);
       setNpwAdmin(false);

@@ -82,10 +82,12 @@ const Auth = () => {
         return showStatus("Error: Fill all options", false);
 
       const response = (await Login(email, password)) as any;
-      
+
       if (response) {
         showStatus("Login successful", true);
-        navigate("/system");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         return;
       }
       return showStatus(`Error: ${response.mensagem}`, false);
