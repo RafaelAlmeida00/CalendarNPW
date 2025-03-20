@@ -23,7 +23,7 @@ export const GetTokenAndVerify = async () => {
           if (!id) return resolve(false);
           const provider = new FirestoreProvider();
           const userRef = await provider.get("users", id);
-          console.log(userRef);
+          console.log("AAAAAAAAAAAAAAAAAAAA", userRef);
           return resolve(userRef || false);
         } catch (error) {
           console.error("Token verification failed:", error);
