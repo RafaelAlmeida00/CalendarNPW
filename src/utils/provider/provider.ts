@@ -1,4 +1,16 @@
-import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, query, where, writeBatch, setDoc } from "firebase/firestore"; 
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  writeBatch,
+  setDoc,
+} from "firebase/firestore";
 import { firestore } from "../../config/firebase/firebase";
 
 class FirestoreProvider {
@@ -20,8 +32,8 @@ class FirestoreProvider {
     }
 
     const querySnapshot = await getDocs(q);
-    const docs: { id: string; }[] = [];
-    querySnapshot.forEach(docSnapshot => {
+    const docs: { id: string }[] = [];
+    querySnapshot.forEach((docSnapshot) => {
       docs.push({ id: docSnapshot.id, ...docSnapshot.data() });
     });
 
@@ -30,7 +42,7 @@ class FirestoreProvider {
 
   async create(collectionName: string, data: any, customId?: string) {
     const colRef = collection(this.db, collectionName);
-    
+
     if (customId) {
       const docRef = doc(colRef, customId);
       await setDoc(docRef, data);
@@ -72,18 +84,14 @@ class FirestoreProvider {
     const colRef = collection(this.db, collectionName);
     let q = query(colRef);
 
-    filters.forEach(filter => {
+    filters.forEach((filter) => {
       const { key, value } = filter;
       q = query(q, where(key, "==", value));
     });
 
     const querySnapshot = await getDocs(q);
-    const docs: {
-      start: string;
-      title: string;
-      description: string; id: string; 
-}[] = [];
-    querySnapshot.forEach(docSnapshot => {
+    const docs: any = [];
+    querySnapshot.forEach((docSnapshot) => {
       docs.push({ id: docSnapshot.id, ...docSnapshot.data() });
     });
 
@@ -107,7 +115,7 @@ class FirestoreProvider {
   // Função updateMany: Atualiza múltiplos documentos
   async updateMany(collectionName: string, dataArray: any) {
     const batch = writeBatch(this.db);
-    
+
     for (const { id, ...data } of dataArray) {
       const docRef = doc(this.db, collectionName, id);
       const docSnapshot = await getDoc(docRef);

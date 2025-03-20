@@ -16,7 +16,6 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import Root from "../../components/Root/root";
-import { colors } from "../../assets/colors";
 import { useAuth } from "../../config/auth/authContext";
 import FirestoreProvider from "../../utils/provider/provider";
 
@@ -27,7 +26,7 @@ const SystemIndex = () => {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
-  const { isVerified, npwAdmin, loading } = useAuth();
+  const { npwAdmin } = useAuth();
   const [events, setEvents] = useState<any>();
   const [clickEvent, setClickEvent] = useState<any>();
   const [edit, setEdit] = useState<any>(false);
@@ -39,7 +38,7 @@ const SystemIndex = () => {
         const res = await provider.getMany("events");
         console.log("Eventos do Firestore:", res);
 
-        const formattedEvents = res.map((event) => {
+        const formattedEvents = res.map((event: { id: any; title: any; start: any; description: any; }) => {
           return {
             id: event.id,
             title: event.title || "Sem título",

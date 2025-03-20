@@ -5,7 +5,7 @@ import { useAuth } from "./authContext";
 
 const AuthMiddleware = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
-  const { isVerified, npwAdmin, loading } = useAuth();
+  const { isVerified, loading } = useAuth();
 
   // Exibe o carregamento até que o estado de verificação esteja pronto
   if (loading) {
