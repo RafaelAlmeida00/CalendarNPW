@@ -19,26 +19,39 @@ class FirestoreProvider {
     this.db = firestore;
   }
 
-  // Função get: Recupera documentos, pode filtrar por chave/valor se for passado
-  async get(collectionName: string, filter = null) {
-    const colRef = collection(this.db, collectionName);
-    let q;
+ // Função get: Recupera documentos, pode filtrar por chave/valor ou buscar por ID
+async get(collectionName: string, id?: string, filter = null) {
+  if (id) {
+    // Busca diretamente pelo ID do documento
+    const docRef = doc(this.db, collectionName, id);
+    const docSnap = await getDoc(docRef);
 
-    if (filter) {
-      const { key, value } = filter;
-      q = query(colRef, where(key, "==", value));
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() };
     } else {
-      q = query(colRef);
+      return null; // Documento não encontrado
     }
-
-    const querySnapshot = await getDocs(q);
-    const docs: { id: string }[] = [];
-    querySnapshot.forEach((docSnapshot) => {
-      docs.push({ id: docSnapshot.id, ...docSnapshot.data() });
-    });
-
-    return docs;
   }
+
+  const colRef = collection(this.db, collectionName);
+  let q;
+
+  if (filter) {
+    const { key, value } = filter;
+    q = query(colRef, where(key, "==", value));
+  } else {
+    q = query(colRef);
+  }
+
+  const querySnapshot = await getDocs(q);
+  const docs: { id: string }[] = [];
+  querySnapshot.forEach((docSnapshot) => {
+    docs.push({ id: docSnapshot.id, ...docSnapshot.data() });
+  });
+
+  return docs;
+}
+
 
   async create(collectionName: string, data: any, customId?: string) {
     const colRef = collection(this.db, collectionName);

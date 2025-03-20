@@ -7,32 +7,30 @@ import {
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { firestore } from "../../config/firebase/firebase";
+import FirestoreProvider from "../provider/provider";
 
 export const GetTokenAndVerify = async () => {
   return new Promise((resolve) => {
     const auth = getAuth();
-    
+
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
           const decodedToken = await user.getIdTokenResult();
           console.log(decodedToken);
-          const id = decodedToken.claims.user_id;
+          const id = decodedToken.claims.user_id as string;
 
           if (!id) return resolve(false);
-
-          const userRef = doc(firestore, "users", id);
+          const provider = new FirestoreProvider();
+          const userRef = await provider.get("users", id);
           console.log(userRef);
-          const userSnap = await getDoc(userRef);
-          console.log(userSnap);
-
-          resolve(userSnap.exists() ? userSnap.data() : false);
+          return resolve(userRef || false);
         } catch (error) {
           console.error("Token verification failed:", error);
-          resolve(false);
+          return resolve(false);
         }
       } else {
-        resolve(false);
+        return resolve(false);
       }
     });
   });
@@ -55,7 +53,7 @@ export const Login = async (email: string, password: string) => {
     const token = await user.getIdToken();
     console.log(user);
     console.log(token);
-    return token
+    return token;
   } catch (error: any) {
     console.error("Erro no login: ", error.message);
     throw error; // Lança o erro para ser tratado onde a função for chamada
