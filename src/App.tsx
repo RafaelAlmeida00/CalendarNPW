@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Loading from "./components/loading/load";
 import AuthMiddleware from "./config/auth/authmiddlware";
-import { AuthProvider } from "./config/auth/authcontext";
+import { AuthProvider } from "./config/auth/authContext";
 
 const AuthPage = lazy(() => import("./pages/auth/auth"));
 const ErrorPage = lazy(() => import("./pages/error/error"));

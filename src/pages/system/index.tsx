@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import Root from "../../components/Root/root";
 import { colors } from "../../assets/colors";
-import { useAuth } from "../../config/auth/authcontext";
+import { useAuth } from "../../config/auth/authContext";
 import FirestoreProvider from "../../utils/provider/provider";
 
 const SystemIndex = () => {
