@@ -10,7 +10,6 @@ import {
 import { styled } from "@mui/system";
 import Root from "../../components/Root/root";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router";
 
 //colors
 import { colors } from "../../assets/colors";
@@ -54,7 +53,6 @@ const alertVariants = {
 };
 
 const Auth = () => {
-  const navigate = useNavigate();
   const [status, setStatus] = useState<any>({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
