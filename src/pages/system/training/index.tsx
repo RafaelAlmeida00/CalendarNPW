@@ -34,7 +34,7 @@ const SystemTraining = () => {
   const [editId, setEditId] = useState<any>();
   const [type, setType] = useState<string[]>([]);
   const enviarParaForms = async () => {
-    const backendUrl = "https://backnpw.vercel.app/send-forms"; // Substitua pela URL do backend
+    const backendUrl = "https://backnpw.onrender.com/send-forms"; // Substitua pela URL do backend
 
     const payload = {
       startDate: new Date().toISOString(),
