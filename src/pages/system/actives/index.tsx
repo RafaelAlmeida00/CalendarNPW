@@ -35,8 +35,7 @@ const SystemAct = () => {
   const [type, setType] = useState<string[]>([]);
 
   const enviarParaForms = async () => {
-    const formUrl =
-      "https://forms.office.com/formapi/api/4617a0ae-1a92-4482-a833-7bad535b3292/users/03d6d528-092f-4551-993c-59e9fab6ba19/forms('rqAXRpIagkSoM3utU1sykijV1gMvCVFFmTxZ6fq2uhlURVpGUjQ2UkY4SUJDQlQ4T0o4Q1dDR0VKWi4u')/responses";
+    const backendUrl = "https://backnpw.vercel.app/send-forms"; // Substitua pela URL do backend
 
     const payload = {
       startDate: new Date().toISOString(),
@@ -57,9 +56,8 @@ const SystemAct = () => {
         { questionId: "r4ce05c2d702b423180174563edc29ffa", answer1: type },
       ],
     };
-
     try {
-      const response = await fetch(formUrl, {
+      const response = await fetch(backendUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
