@@ -40,19 +40,13 @@ const SystemIndex = () => {
       startDate: new Date().toISOString(),
       submitDate: new Date().toISOString(),
       answers: [
+        { questionId: "rbce85830c945445d9c93329dd9c9735a", answer1: "teste" },
+        { questionId: "r3454279865d14b65b33e9c843391cb3f", answer1: "teste" },
+        { questionId: "r7f98945a81a64fe0a07e8cf2da4b69a7", answer1: '["NPW"]' },
         {
-          questionId: "rbce85830c945445d9c93329dd9c9735a",
-          answer1: eventTitle,
+          questionId: "r4ce05c2d702b423180174563edc29ffa",
+          answer1: '["treinamento"]',
         },
-        {
-          questionId: "r3454279865d14b65b33e9c843391cb3f",
-          answer1: eventDescription,
-        },
-        {
-          questionId: "r7f98945a81a64fe0a07e8cf2da4b69a7",
-          answer1: selectedTeams,
-        },
-        { questionId: "r4ce05c2d702b423180174563edc29ffa", answer1: type },
       ],
     };
     try {
@@ -62,7 +56,7 @@ const SystemIndex = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
-        mode: 'no-cors', 
+        mode: "no-cors",
       });
 
       if (response.ok) {
