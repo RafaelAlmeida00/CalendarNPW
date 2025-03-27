@@ -15,12 +15,12 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import Root from "../../components/Root/root";
-import { useAuth } from "../../config/auth/authContext";
-import FirestoreProvider from "../../utils/provider/provider";
-import Sidebar from "../../components/menu/menu";
+import Root from "../../../components/Root/root";
+import { useAuth } from "../../../config/auth/authContext";
+import FirestoreProvider from "../../../utils/provider/provider";
+import Sidebar from "../../../components/menu/menu";
 
-const SystemIndex = () => {
+const SystemVisits = () => {
   const provider = useMemo(() => new FirestoreProvider(), []);
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<any>();
@@ -40,31 +40,35 @@ const SystemIndex = () => {
         const res = await provider.getMany("events");
         console.log("Eventos do Firestore:", res);
 
-        const formattedEvents = res.map(
-          (event: {
-            id: any;
-            title: any;
-            start: any;
-            description: any;
-            type: any;
-          }) => {
-            return {
-              id: event.id,
-              title: event.title || "Sem título",
-              start: event.start || "",
-              description: event.description || "",
-              type: event.type || "",
-              extendedProps: event,
-            };
-          }
-        );
-        console.log("Eventos do Firestore formattedEvents:", formattedEvents);
+        const formattedEvents = res
+          .filter((event: { type: any }) => event.type == "visitas") // Filtro por type = "visitas"
+          .map(
+            (event: {
+              id: any;
+              title: any;
+              start: any;
+              description: any;
+              type: any;
+            }) => {
+              return {
+                id: event.id,
+                title: event.title || "Sem título",
+                start: event.start || "",
+                description: event.description || "",
+                type: event.type || "",
+                extendedProps: event,
+              };
+            }
+          );
+
+        console.log("Eventos filtrados por visitas:", formattedEvents);
 
         setEvents(formattedEvents);
       } catch (error) {
         console.error("Erro ao buscar eventos:", error);
       }
     };
+
     getEvents();
   }, [clickEvent, open]);
 
@@ -339,4 +343,4 @@ const SystemIndex = () => {
   );
 };
 
-export default SystemIndex;
+export default SystemVisits;
