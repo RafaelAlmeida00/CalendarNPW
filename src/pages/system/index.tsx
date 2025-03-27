@@ -55,7 +55,7 @@ const SystemIndex = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ data: payload }),
         mode: "no-cors",
       });
 
