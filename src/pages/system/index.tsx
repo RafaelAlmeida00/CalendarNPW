@@ -62,6 +62,7 @@ const SystemIndex = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
+        mode: 'no-cors', 
       });
 
       if (response.ok) {
