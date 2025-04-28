@@ -14,6 +14,7 @@ const menuItems = [
   { text: "Training Calendar", path: "/system/trainings" },
   { text: "Executive Visits Calendar", path: "/system/executive-visits" },
   { text: "Activities Calendar", path: "/system/activities" },
+  { text: "Home Office", path: "/system/home" },
 ];
 
 const Sidebar = () => {
