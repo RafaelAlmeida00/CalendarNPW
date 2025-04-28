@@ -34,50 +34,6 @@ const SystemAct = () => {
   const [editId, setEditId] = useState<any>();
   const [type, setType] = useState<string[]>([]);
 
-  const enviarParaForms = async () => {
-    const backendUrl = "https://backnpw.onrender.com/send-forms"; // Substitua pela URL do backend
-
-    const payload = {
-      startDate: new Date().toISOString(),
-      submitDate: new Date().toISOString(),
-      answers: [
-        {
-          questionId: "rbce85830c945445d9c93329dd9c9735a",
-          answer1: eventTitle,
-        },
-        {
-          questionId: "r3454279865d14b65b33e9c843391cb3f",
-          answer1: eventDescription,
-        },
-        {
-          questionId: "r7f98945a81a64fe0a07e8cf2da4b69a7",
-          answer1: selectedTeams,
-        },
-        { questionId: "r4ce05c2d702b423180174563edc29ffa", answer1: type },
-      ],
-    };
-    try {
-      const response = await fetch(backendUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        console.log("Evento enviado com sucesso!");
-      } else {
-        console.error(
-          "Erro ao enviar:",
-          response.status,
-          await response.text()
-        );
-      }
-    } catch (error) {
-      console.error("Erro ao conectar com o Forms:", error);
-    }
-  };
 
   useEffect(() => {
     const getEvents = async () => {
@@ -178,7 +134,6 @@ const SystemAct = () => {
         start: selectedDate,
         type: type,
       });
-      await enviarParaForms();
 
       handleClose();
     } catch (error) {
