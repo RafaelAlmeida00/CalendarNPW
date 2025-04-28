@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Loading from "./components/loading/load";
 import AuthMiddleware from "./config/auth/authmiddlware";
 import { AuthProvider } from "./config/auth/authContext";
+import SystemHome from "./pages/system/home";
 
 const AuthPage = lazy(() => import("./pages/auth/auth"));
 const ErrorPage = lazy(() => import("./pages/error/error"));
@@ -29,6 +30,7 @@ const RoutesComponent = () => {
                 <Route path="executive-visits" element={<SystemVisits />} />
                 <Route path="trainings" element={<SystemTraining />} />
                 <Route path="activities" element={<SystemAct />} />
+                <Route path="home" element={<SystemHome />} />
               </Route>
             </Routes>
           </Suspense>

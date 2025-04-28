@@ -304,6 +304,7 @@ const SystemAct = () => {
                     <MenuItem value="atividade">Atividade</MenuItem>
                     <MenuItem value="treinamento">Treinamento</MenuItem>
                     <MenuItem value="visita">Visita</MenuItem>
+                    <MenuItem value="home">Home Office</MenuItem>
                   </Select>
                 </FormControl>
               )}

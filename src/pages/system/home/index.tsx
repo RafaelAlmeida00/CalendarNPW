@@ -20,7 +20,7 @@ import { useAuth } from "../../../config/auth/authContext";
 import FirestoreProvider from "../../../utils/provider/provider";
 import Sidebar from "../../../components/menu/menu";
 
-const SystemVisits = () => {
+const SystemHome = () => {
   const provider = useMemo(() => new FirestoreProvider(), []);
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<any>();
@@ -83,7 +83,7 @@ const SystemVisits = () => {
         console.log("Eventos do Firestore:", res);
 
         const formattedEvents = res
-          .filter((event: { type: any }) => event.type == "visitas") // Filtro por type = "visitas"
+          .filter((event: { type: any }) => event.type == "home") // Filtro por type = "visitas"
           .map(
             (event: {
               id: any;
@@ -387,4 +387,4 @@ const SystemVisits = () => {
   );
 };
 
-export default SystemVisits;
+export default SystemHome;
