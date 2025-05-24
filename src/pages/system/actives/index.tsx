@@ -33,6 +33,7 @@ const SystemAct = () => {
   const [edit, setEdit] = useState<any>(false);
   const [editId, setEditId] = useState<any>();
   const [type, setType] = useState<string[]>([]);
+  const [priority, setEditPriority] = useState<string>("sem prioridade");
 
 
   useEffect(() => {
@@ -50,14 +51,28 @@ const SystemAct = () => {
               start: any;
               description: any;
               type: any;
+              priority: any
             }) => {
+              let backgroundColor = "";
+
+              if (event.priority === "alta") {
+                backgroundColor = "red";
+              } else if (event.priority === "media") {
+                backgroundColor = "orange";
+              } else if (event.priority === "sem prioridade") {
+                backgroundColor = "grey";
+              }
+
               return {
                 id: event.id,
                 title: event.title || "Sem título",
                 start: event.start || "",
                 description: event.description || "",
                 type: event.type || "",
+                priority: event.priority || "",
                 extendedProps: event,
+                backgroundColor,
+                borderColor: backgroundColor,
               };
             }
           );
@@ -97,6 +112,8 @@ const SystemAct = () => {
     setSelectedDate(clickEvent.extendedProps.start);
     setEventTitle(clickEvent.extendedProps.title);
     setEventDescription(clickEvent.extendedProps.description);
+    setType(clickEvent.extendedProps.type);
+    setEditPriority(clickEvent.extendedProps.priority);
     setSelectedTeams([]);
     setClickEvent("");
   };
@@ -107,6 +124,8 @@ const SystemAct = () => {
     setEditId("");
     setEventTitle("");
     setEventDescription("");
+    setEditPriority("")
+    setType([]);
     setSelectedTeams([]);
     setClickEvent(null);
   };
@@ -122,6 +141,7 @@ const SystemAct = () => {
           team: selectedTeams,
           start: selectedDate,
           type: type,
+          priority: priority,
         });
         handleClose();
         return;
@@ -133,6 +153,7 @@ const SystemAct = () => {
         team: selectedTeams,
         start: selectedDate,
         type: type,
+        priority: priority,
       });
 
       handleClose();
@@ -140,6 +161,7 @@ const SystemAct = () => {
       console.error("Erro ao criar evento:", error);
     }
   };
+
 
   const formatarData = (dataString?: string) => {
     if (!dataString) return "Data inválida";
@@ -155,6 +177,11 @@ const SystemAct = () => {
   const handleChangeType = (event: SelectChangeEvent<string[]>) => {
     const value = event.target.value;
     setType(typeof value === "string" ? [value] : value);
+  };
+
+  const handleChangePriority = (event: SelectChangeEvent<string>) => {
+    const value = event.target.value;
+    setEditPriority(value);
   };
 
   return (
@@ -260,6 +287,25 @@ const SystemAct = () => {
                     <MenuItem value="treinamento">Treinamento</MenuItem>
                     <MenuItem value="visita">Visita</MenuItem>
                     <MenuItem value="home">Home Office</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+
+              {!clickEvent && (
+                <FormControl fullWidth>
+                  <InputLabel>Prioridade</InputLabel>
+                  <Select
+                    value={
+                      clickEvent
+                        ? clickEvent.extendedProps.priority
+                        : priority
+                    }
+                    onChange={handleChangePriority}
+                  >
+                    <MenuItem value="sem prioridade">Sem Prioridade</MenuItem>
+                    <MenuItem value="baixa">Baixa</MenuItem>
+                    <MenuItem value="media">Média</MenuItem>
+                    <MenuItem value="alta">Alta</MenuItem>
                   </Select>
                 </FormControl>
               )}
