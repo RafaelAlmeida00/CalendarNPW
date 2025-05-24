@@ -159,7 +159,7 @@ const SystemVisitsTableView = () => {
         });
 
         return (
-            <Box sx={{ width: "33%" }}>
+            <Box sx={{ width: "33%", mt: 1 }}>
                 <TableContainer component={Paper}>
                     <Typography variant="h6" align="center">
                         Holidays
