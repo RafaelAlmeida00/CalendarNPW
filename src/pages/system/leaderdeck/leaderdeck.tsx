@@ -121,7 +121,7 @@ const SystemVisitsTableView = () => {
         });
 
         return (
-            <Box sx={{ width: "48%" }}>
+            <Box sx={{ width: "33%" }}>
                 <Typography variant="h6" align="center" gutterBottom>
                     {monthNames[monthIndex]}
                 </Typography>
@@ -159,8 +159,11 @@ const SystemVisitsTableView = () => {
         });
 
         return (
-            <Box sx={{ width: "300px", position: "relative", float: "right", mr: 10, padding: 2, mb: -15  }}>
+            <Box sx={{ width: "33%" }}>
                 <TableContainer component={Paper}>
+                    <Typography variant="h6" align="center">
+                        Holidays
+                    </Typography>
                     <Table size="small">
                         <TableHead>
                             <TableRow sx={{ backgroundColor: "#d1d1d1" }}>
@@ -171,10 +174,10 @@ const SystemVisitsTableView = () => {
                         </TableHead>
                         <TableBody>
                             {holidayEvents.map((event: { data: string; nome: any; tipo: any; }) => (
-                                <TableRow key={`${event.data}${event.nome}`} sx={{ backgroundColor: "orange"}}>
-                                    <TableCell  sx={{fontSize: "0.5rem"}}>{formatDayRange(event.data)}</TableCell>
-                                    <TableCell  sx={{fontSize: "0.5rem"}}>{event.nome || "Sem título"}</TableCell>
-                                    <TableCell  sx={{fontSize: "0.5rem"}}>{event.tipo || "-"}</TableCell>
+                                <TableRow key={`${event.data}${event.nome}`} sx={{ backgroundColor: "orange" }}>
+                                    <TableCell>{formatDayRange(event.data)}</TableCell>
+                                    <TableCell>{event.nome || "Sem título"}</TableCell>
+                                    <TableCell>{event.tipo || "-"}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -188,7 +191,6 @@ const SystemVisitsTableView = () => {
     return (
         <>
             <Sidebar />
-            {renderHolidayTable(startMonth)}
             <Root direction="column">
                 <Box
                     sx={{
@@ -198,6 +200,7 @@ const SystemVisitsTableView = () => {
                         display: "flex",
                         flexDirection: "column",
                         gap: 2,
+                        mt: 10,
                     }}
                 >
                     <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -216,9 +219,11 @@ const SystemVisitsTableView = () => {
                         </Button>
                     </Box>
 
-                    <Box display="flex" justifyContent="space-between" gap={2}>
+                    <Box display="flex" justifyContent="space-between" gap={3}>
                         {renderMonthTable(startMonth)}
                         {renderMonthTable(startMonth + 1)}
+                        {renderHolidayTable(startMonth)}
+
                     </Box>
                 </Box>
             </Root>
