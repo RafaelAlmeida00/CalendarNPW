@@ -165,7 +165,7 @@ const SystemVisitsTableView = () => {
                         <TableHead>
                             <TableRow sx={{ backgroundColor: "#d1d1d1" }}>
                                 <TableCell><strong>Day</strong></TableCell>
-                                <TableCell><strong>Event</strong></TableCell>
+                                <TableCell><strong>Holiday</strong></TableCell>
                                 <TableCell><strong>Type</strong></TableCell>
                             </TableRow>
                         </TableHead>
