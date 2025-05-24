@@ -13,6 +13,7 @@ const SystemIndex = lazy(() => import("./pages/system/index"));
 const SystemVisits = lazy(() => import("./pages/system/visits/index"));
 const SystemAct = lazy(() => import("./pages/system/actives/index"));
 const SystemTraining = lazy(() => import("./pages/system/training/index"));
+const SystemLeaderDeck = lazy(() => import("./pages/system/leaderdeck/leaderdeck"));
 
 const RoutesComponent = () => {
   return (
@@ -31,6 +32,7 @@ const RoutesComponent = () => {
                 <Route path="trainings" element={<SystemTraining />} />
                 <Route path="activities" element={<SystemAct />} />
                 <Route path="home" element={<SystemHome />} />
+                <Route path="leaderdeck" element={<SystemLeaderDeck />} />
               </Route>
             </Routes>
           </Suspense>

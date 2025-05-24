@@ -12,9 +12,10 @@ import { useNavigate } from "react-router";
 const menuItems = [
   { text: "Total Calendar", path: "/system/" },
   { text: "Training Calendar", path: "/system/trainings" },
-  { text: "Executive Visits Calendar", path: "/system/executive-visits" },
+  { text: "Events and Visits Calendar", path: "/system/executive-visits" },
   { text: "Activities Calendar", path: "/system/activities" },
   { text: "Home Office", path: "/system/home" },
+  { text: "Leader Deck - Events/Visits", path: "/system/leaderdeck" },
 ];
 
 const Sidebar = () => {

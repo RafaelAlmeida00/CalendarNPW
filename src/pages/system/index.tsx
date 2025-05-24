@@ -26,15 +26,16 @@ const SystemIndex = () => {
   const [selectedDate, setSelectedDate] = useState<any>();
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
+  const [selectedTeams, setSelectedTeams] = useState<string[]>(["NPW"]);
   const { npwAdmin } = useAuth();
   const [events, setEvents] = useState<any>();
   const [clickEvent, setClickEvent] = useState<any>();
   const [edit, setEdit] = useState<any>(false);
   const [editId, setEditId] = useState<any>();
-  const [type, setType] = useState<string[]>([]);
+  const [type, setType] = useState<string[]>(["atividade"]);
   const [priority, setEditPriority] = useState<string>("sem prioridade");
-  const [typeFilter, setTypeFilter] = useState<string[]>(["visita", "atividade", "treinamento"]);
+  const [typeFilter, setTypeFilter] = useState<string[]>(["atividade", "treinamento"]);
+  const [selectedDateEnd, setSelectedDateEnd] = useState<any>();
 
   useEffect(() => {
     const getEvents = async () => {
@@ -53,6 +54,7 @@ const SystemIndex = () => {
             id: any;
             title: any;
             start: any;
+            end: any;
             description: any;
             type: any;
             priority: any;
@@ -67,10 +69,29 @@ const SystemIndex = () => {
               backgroundColor = "grey";
             }
 
+            console.log("Evento:", event.start, event.end);
+
+
             return {
               id: event.id,
               title: event.title || "Sem título",
               start: event.start || "",
+              end: event.end
+                ? (() => {
+                  const startDate = new Date(event.start);
+                  const endDate = new Date(event.end);
+                  const diffInMs = endDate.getTime() - startDate.getTime();
+                  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+                  if (diffInDays > 14) {
+                    return new Date(startDate).toISOString().split("T")[0]; // end = start
+                  }
+
+                  // end + 1 dia
+                  endDate.setDate(endDate.getDate() + 1);
+                  return endDate.toISOString().split("T")[0];
+                })()
+                : event.start || "",
               description: event.description || "",
               type: event.type || "",
               priority: event.priority || "",
@@ -112,6 +133,7 @@ const SystemIndex = () => {
     setEdit(true);
     setEditId(clickEvent.extendedProps.id);
     setSelectedDate(clickEvent.extendedProps.start);
+    setSelectedDateEnd(clickEvent.extendedProps.end);
     setEventTitle(clickEvent.extendedProps.title);
     setEventDescription(clickEvent.extendedProps.description);
     setType(clickEvent.extendedProps.type);
@@ -125,6 +147,7 @@ const SystemIndex = () => {
     setEdit("");
     setEditId("");
     setEventTitle("");
+    setSelectedDateEnd("");
     setEventDescription("");
     setEditPriority("")
     setType([]);
@@ -142,6 +165,7 @@ const SystemIndex = () => {
           description: eventDescription,
           team: selectedTeams,
           start: selectedDate,
+          end: selectedDateEnd,
           type: type,
           priority: priority,
         });
@@ -154,6 +178,7 @@ const SystemIndex = () => {
         description: eventDescription,
         team: selectedTeams,
         start: selectedDate,
+        end: selectedDateEnd,
         type: type,
         priority: priority,
       });
@@ -213,7 +238,7 @@ const SystemIndex = () => {
         >
           <MenuItem value="atividade">Atividade</MenuItem>
           <MenuItem value="treinamento">Treinamento</MenuItem>
-          <MenuItem value="visita">Visita</MenuItem>
+          <MenuItem value="visita">Visita e Evento</MenuItem>
           <MenuItem value="home">Home Office</MenuItem>
         </Select>
       </FormControl>
@@ -273,6 +298,18 @@ const SystemIndex = () => {
                 onChange={(e) => setEventDescription(e.target.value)}
                 disabled={!!clickEvent}
               />
+
+              <TextField
+                type="date"
+                label="Data de Fim"
+                InputLabelProps={{ shrink: true }}
+                value={clickEvent
+                  ? clickEvent.extendedProps.end
+                  : selectedDateEnd}
+                onChange={(e) => setSelectedDateEnd(e.target.value)}
+                disabled={!!clickEvent}
+              />
+
               {!clickEvent && (
                 <FormControl fullWidth>
                   <InputLabel>Adicionar Times</InputLabel>
@@ -316,7 +353,7 @@ const SystemIndex = () => {
                   >
                     <MenuItem value="atividade">Atividade</MenuItem>
                     <MenuItem value="treinamento">Treinamento</MenuItem>
-                    <MenuItem value="visita">Visita</MenuItem>
+                    <MenuItem value="visita">Visita ou Evento</MenuItem>
                     <MenuItem value="home">Home Office</MenuItem>
                   </Select>
                 </FormControl>

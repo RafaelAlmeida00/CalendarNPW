@@ -26,14 +26,15 @@ const SystemHome = () => {
   const [selectedDate, setSelectedDate] = useState<any>();
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
+  const [selectedTeams, setSelectedTeams] = useState<string[]>(["NPW"]);
   const { npwAdmin } = useAuth();
   const [events, setEvents] = useState<any>();
   const [clickEvent, setClickEvent] = useState<any>();
   const [edit, setEdit] = useState<any>(false);
   const [editId, setEditId] = useState<any>();
-  const [type, setType] = useState<string[]>([]);
+  const [type, setType] = useState<string[]>(["atividade"]);
   const [priority, setEditPriority] = useState<string>("sem prioridade");
+  const [selectedDateEnd, setSelectedDateEnd] = useState<any>();
 
 
   useEffect(() => {
@@ -44,38 +45,43 @@ const SystemHome = () => {
 
         const formattedEvents = res
           .filter((event: { type: any }) => event.type == "home") // Filtro por type = "visitas"
-          .map(
-            (event: {
-              id: any;
-              title: any;
-              start: any;
-              description: any;
-              type: any;
-              priority: any
-            }) => {
-              let backgroundColor = "";
+          .map((event: {
+            id: any;
+            title: any;
+            start: any;
+            end: any;
+            description: any;
+            type: any;
+            priority: any;
+          }) => {
+            let backgroundColor = "";
 
-              if (event.priority === "alta") {
-                backgroundColor = "red";
-              } else if (event.priority === "media") {
-                backgroundColor = "orange";
-              } else if (event.priority === "sem prioridade") {
-                backgroundColor = "grey";
-              }
-
-              return {
-                id: event.id,
-                title: event.title || "Sem título",
-                start: event.start || "",
-                description: event.description || "",
-                type: event.type || "",
-                priority: event.priority || "",
-                extendedProps: event,
-                backgroundColor,
-                borderColor: backgroundColor,
-              };
+            if (event.priority === "alta") {
+              backgroundColor = "red";
+            } else if (event.priority === "media") {
+              backgroundColor = "orange";
+            } else if (event.priority === "sem prioridade") {
+              backgroundColor = "grey";
             }
+
+            console.log("Evento:", event.start, event.end);
+
+
+            return {
+              id: event.id,
+              title: event.title || "Sem título",
+              start: event.start || "",
+              end: event.end ? new Date(new Date(event.end).setDate(new Date(event.end).getDate() + 1)).toISOString().split("T")[0] : "",
+              description: event.description || "",
+              type: event.type || "",
+              priority: event.priority || "",
+              extendedProps: event,
+              backgroundColor,
+              borderColor: backgroundColor,
+            };
+          }
           );
+
         console.log("Eventos filtrados por visitas:", formattedEvents);
 
         setEvents(formattedEvents);
@@ -105,10 +111,12 @@ const SystemHome = () => {
     setClickEvent(null);
   };
 
+
   const handleEdit = () => {
     setEdit(true);
     setEditId(clickEvent.extendedProps.id);
     setSelectedDate(clickEvent.extendedProps.start);
+    setSelectedDateEnd(clickEvent.extendedProps.end);
     setEventTitle(clickEvent.extendedProps.title);
     setEventDescription(clickEvent.extendedProps.description);
     setType(clickEvent.extendedProps.type);
@@ -122,6 +130,7 @@ const SystemHome = () => {
     setEdit("");
     setEditId("");
     setEventTitle("");
+    setSelectedDateEnd("");
     setEventDescription("");
     setEditPriority("")
     setType([]);
@@ -139,6 +148,7 @@ const SystemHome = () => {
           description: eventDescription,
           team: selectedTeams,
           start: selectedDate,
+          end: selectedDateEnd,
           type: type,
           priority: priority,
         });
@@ -151,6 +161,7 @@ const SystemHome = () => {
         description: eventDescription,
         team: selectedTeams,
         start: selectedDate,
+        end: selectedDateEnd,
         type: type,
         priority: priority,
       });
@@ -160,7 +171,6 @@ const SystemHome = () => {
       console.error("Erro ao criar evento:", error);
     }
   };
-
 
   const formatarData = (dataString?: string) => {
     if (!dataString) return "Data inválida";
@@ -241,6 +251,18 @@ const SystemHome = () => {
                 onChange={(e) => setEventDescription(e.target.value)}
                 disabled={!!clickEvent}
               />
+              
+              <TextField
+                type="date"
+                label="Data de Fim"
+                InputLabelProps={{ shrink: true }}
+                value={clickEvent
+                  ? clickEvent.extendedProps.end
+                  : selectedDateEnd}
+                onChange={(e) => setSelectedDateEnd(e.target.value)}
+                disabled={!!clickEvent}
+              />
+
               {!clickEvent && (
                 <FormControl fullWidth>
                   <InputLabel>Adicionar Times</InputLabel>
@@ -284,7 +306,7 @@ const SystemHome = () => {
                   >
                     <MenuItem value="atividade">Atividade</MenuItem>
                     <MenuItem value="treinamento">Treinamento</MenuItem>
-                    <MenuItem value="visita">Visita</MenuItem>
+                    <MenuItem value="visita">Visita ou Evento</MenuItem>
                     <MenuItem value="home">Home Office</MenuItem>
                   </Select>
                 </FormControl>
