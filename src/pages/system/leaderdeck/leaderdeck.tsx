@@ -167,17 +167,17 @@ const SystemVisitsTableView = () => {
                     <Table size="small">
                         <TableHead>
                             <TableRow sx={{ backgroundColor: "#d1d1d1" }}>
-                                <TableCell><strong>Day</strong></TableCell>
-                                <TableCell><strong>Holiday</strong></TableCell>
-                                <TableCell><strong>Type</strong></TableCell>
+                                <TableCell sx={{fontSize: "0.7rem"}}><strong>Day</strong></TableCell>
+                                <TableCell sx={{fontSize: "0.7rem"}}><strong>Holiday</strong></TableCell>
+                                <TableCell sx={{fontSize: "0.7rem"}}><strong>Type</strong></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {holidayEvents.map((event: { data: string; nome: any; tipo: any; }) => (
                                 <TableRow key={`${event.data}${event.nome}`} sx={{ backgroundColor: "orange" }}>
-                                    <TableCell>{formatDayRange(event.data)}</TableCell>
-                                    <TableCell>{event.nome || "Sem título"}</TableCell>
-                                    <TableCell>{event.tipo || "-"}</TableCell>
+                                    <TableCell sx={{fontSize: "0.6rem"}}>{formatDayRange(event.data)}</TableCell>
+                                    <TableCell sx={{fontSize: "0.6rem"}}>{event.nome || "Sem título"}</TableCell>
+                                    <TableCell sx={{fontSize: "0.6rem"}}>{event.tipo || "-"}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
